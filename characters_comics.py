@@ -18,6 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 df_char = pd.read_csv('result/result_characters 22 Aug.csv')
 df_char_com = pd.DataFrame()
+
 limit = 100
 offset_2 = 0
 
@@ -28,8 +29,8 @@ pbkey = os.getenv("MARVEL_PBKEY")
 assemble = ts+pvkey+pbkey
 juru = hashlib.md5(assemble.encode())
 
-i = 684    
-for i in range(1562):
+i = 1249
+while i<1563:
     getLoop = True
     offset = 0
     char_id = df_char.loc[i,'id']
@@ -69,7 +70,9 @@ df_char_com = df_char_com.rename(columns={
     0: 'char_id',
     1: 'com_id',
 })
-df_char_com.to_csv('result_char_com.csv')
+x_df_char_com = pd.read_csv('result/result_char_com 29 Aug.csv')
+x_df_char_com = x_df_char_com[x_df_char_com.char_id != 1009610]
+x_df_char_com = x_df_char_com.drop(columns=['Unnamed: 0','Unnamed: 0.1'])
+result_df = pd.concat([x_df_char_com, df_char_com])
+result_df.to_csv('result_char_com.csv')
 
-print(df_char.loc[684,'id'])
-x_df_char_com = df_char_com[df_char_com.char_id != 1009508]
